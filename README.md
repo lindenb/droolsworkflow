@@ -1,4 +1,6 @@
 droolsworkflow
 ==============
 
-Bioinformatics workflow using jboss drools. Idea from Ekrame Jacobi / Genoscope / Evry
+Bioinformatics workflow using jboss drools. http://www.jboss.org/drools
+
+Idea from E'Krame Jacobi / Genoscope / Evry 

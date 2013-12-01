@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="all">
+<property file="build.properties"/>
+
+<path id="drools.libs">
+	<fileset dir="${drools.directory}/binaries">
+		<include name="*.jar"/>
+	</fileset>
+</path>
+
+<target name="all" depends="test.ngsworkflow.jar">
+</target>
+
+<target name="test.ngsworkflow.jar" depends="ngsworkflow.jar">	
+	<java classname="com.github.lindenb.droolsworkflow.DroolsWorkflow" fork="true">
+		<classpath>
+			<path refid="drools.libs"/>
+			<pathelement location="dist/ngsworkflow.jar"/>
+		</classpath>
+		<arg value="-R"/> <arg value="src/main/resources/drools/ngs.drl"/>
+		<arg value="/home/lindenb/samtools-0.1.18/examples/toy.sam"/>
+	</java>
+
+</target>
+	
+	
+<target name="ngsworkflow.jar">	
+   <mkdir dir="tmp"/>
+   <mkdir dir="dist"/>
+
+	<javac destdir="tmp" includeAntRuntime="false" debug="true">
+   		<src path="src/main/java"/>
+   		<classpath refid="drools.libs"/>
+   		<include name="**/DroolsWorkflow.java"/>
+   </javac>
+	
+	<pathconvert property="manifest_1" pathsep=" " >
+		 <path refid="drools.libs"/>
+   </pathconvert>  
+   
+   <jar jarfile="dist/ngsworkflow.jar">
+	     <fileset dir="tmp" />
+	     <manifest>
+	       <attribute name="Main-Class" value="com.github.lindenb.droolsworkflow.DroolsWorkflow"/>
+	        <attribute name="Class-Path" value="${manifest_1}"/>
+	     </manifest>
+ 	</jar>
+	<delete dir="tmp"/>
+</target>	
+	
+</project>

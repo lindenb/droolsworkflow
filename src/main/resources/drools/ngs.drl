@@ -1,0 +1,24 @@
+
+import java.io.File;
+import com.github.lindenb.droolsworkflow.SamtoolsSort;
+
+
+rule "SortSam" 
+	dialect "java"
+when
+	sam: File()
+	eval(sam.getName().endsWith(".sam"))
+then
+    System.out.println("SAM:###########"+sam);
+    SamtoolsSort x1=new SamtoolsSort();
+    insert(x1.execute(sam));
+end
+
+rule "IndexSam" 
+	dialect "java"
+when
+	sam: File()
+	eval(sam.getName().endsWith(".bam"))
+then
+    System.out.println("Bam:###########"+sam);
+end
